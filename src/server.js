@@ -194,9 +194,10 @@ app.all('/*', async (req, res) => {
       durationMs,
       targetStatus: response.status,
     });
-
+    // Mask password from targetUrl
+    const maskedTargetUrl = targetUrl.replace(/:.*@/, ':****@');
     // Always 200 back
-    res.status(200).json({ ok: true, forwarded: true,  to: targetUrl, targetStatus: response.status });
+    res.status(200).json({ ok: true, forwarded: true,  to: maskedTargetUrl, targetStatus: response.status });
   } catch (error) {
     const durationMs = Date.now() - start;
     const status = error?.response?.status || 0;
